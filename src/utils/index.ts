@@ -2,7 +2,6 @@ import { writeToDb, getFromDb, pushToDb } from './db';
 import boltApp from '../bolt';
 import { View } from '@slack/web-api';
 import moment = require('moment');
-import { remoteLogError } from '../logs';
 
 export const addUser = async (addedBy: string, userName: string) => {
   const users = await getFromDb<User[]>('users');
@@ -49,10 +48,10 @@ export const openModal = (trigger_id: string, view: View) => {
         view
       })
       .catch(err => {
-        remoteLogError('Open modal error', err);
+        console.log('Open modal error', err);
       });
   } catch (error) {
-    remoteLogError('Open modal error', error);
+    console.log('Open modal error', error);
   }
 };
 

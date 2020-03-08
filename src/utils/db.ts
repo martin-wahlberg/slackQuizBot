@@ -1,5 +1,4 @@
 import { databaseRef } from '../firebase';
-import { remoteLogError } from '../logs';
 
 export const getFromDb = <T>(keyPath: string) => {
   return new Promise<T | undefined>((resolve, reject) =>
@@ -10,7 +9,7 @@ export const getFromDb = <T>(keyPath: string) => {
         resolve(snapshot.val());
       })
       .catch(err => {
-        remoteLogError('getFromDb', err);
+        console.log('getFromDb', err);
         reject(err);
       })
   );
@@ -21,7 +20,7 @@ export const writeToDb = (keyPath: string, data: Object) =>
     .child(keyPath)
     .set(data)
     .catch(err => {
-      remoteLogError('writeToDb', err);
+      console.log('writeToDb', err);
     });
 
 export const pushToDb = (keyPath: string, data: any) =>
@@ -29,5 +28,5 @@ export const pushToDb = (keyPath: string, data: any) =>
     .child(keyPath)
     .push(data)
     .catch(err => {
-      remoteLogError('writeToDb', err);
+      console.log('writeToDb', err);
     });

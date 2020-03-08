@@ -14,7 +14,7 @@ exports.initLogger = () => {
     }));
     winston_1.default.log('info', 'App restarted');
 };
-exports.remoteLogError = (type, error) => {
+exports.log = (type, error) => {
     winston_1.default.log('error', type, error);
 };
 //# sourceMappingURL=logs.js.map

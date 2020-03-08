@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("./db");
 const bolt_1 = __importDefault(require("../bolt"));
 const moment = require("moment");
-const logs_1 = require("../logs");
 exports.addUser = (addedBy, userName) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield db_1.getFromDb('users');
     db_1.writeToDb('users', [
@@ -57,11 +56,11 @@ exports.openModal = (trigger_id, view) => {
             view
         })
             .catch(err => {
-            logs_1.remoteLogError('Open modal error', err);
+            console.log('Open modal error', err);
         });
     }
     catch (error) {
-        logs_1.remoteLogError('Open modal error', error);
+        console.log('Open modal error', error);
     }
 };
 const getDay = (dayNumber) => {

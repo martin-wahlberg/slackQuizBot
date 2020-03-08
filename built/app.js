@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const actions_1 = __importDefault(require("./actions"));
 const bolt_1 = __importDefault(require("./bolt"));
 //import cronJobs from './CronJobs';
-const logs_1 = require("./logs");
-logs_1.initLogger();
 actions_1.default();
 //cronJobs();
 (() => __awaiter(void 0, void 0, void 0, function* () {
