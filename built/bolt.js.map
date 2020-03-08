@@ -1,0 +1,1 @@
+{"version":3,"file":"bolt.js","sourceRoot":"","sources":["../src/bolt.ts"],"names":[],"mappings":";;AAAA,sCAAkC;AAElC,MAAM,OAAO,GAAG,IAAI,UAAG,CAAC;IACtB,KAAK,EAAE,OAAO,CAAC,GAAG,CAAC,eAAe;IAClC,aAAa,EAAE,OAAO,CAAC,GAAG,CAAC,oBAAoB;CAChD,CAAC,CAAC;AAEH,kBAAe,OAAO,CAAC"}

@@ -1,0 +1,25 @@
+{
+  "name": "gjequizbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./built/app.js",
+    "startdev": "node -r dotenv/config app.js",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^1.7.0",
+    "@types/node": "^13.9.0",
+    "@types/winston-loggly-bulk": "^3.0.0",
+    "firebase-admin": "^8.9.2",
+    "moment": "^2.24.0",
+    "ts-dedent": "^1.1.1",
+    "winston": "^3.2.1",
+    "winston-loggly-bulk": "^3.0.1"
+  }
+}
