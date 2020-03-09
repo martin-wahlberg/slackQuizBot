@@ -18,31 +18,32 @@ const quizregistration_1 = __importDefault(require("./modals/quizregistration"))
 const Messages_1 = require("./Messages");
 const performQuizAction = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     //Registrert bruker actions
+    console.log(payload);
     if (yield utils_1.checkIfUserExists(payload.user_name)) {
         switch (true) {
             case !!payload.text.toLowerCase().match(/addUser/gi):
-                utils_1.log('add_user');
+                utils_1.log("add_user");
                 utils_1.addUser(payload.user_name, payload.text);
                 return;
             case !!payload.text.toLowerCase().match(/quizTime/gi):
-                utils_1.log('quiz_time');
+                utils_1.log("quiz_time");
                 bolt_1.default.client.chat.postMessage(Messages_1.quizMessage);
                 return;
         }
     }
 });
 const actions = () => {
-    bolt_1.default.command('/quizbot', ({ ack, payload }) => {
+    bolt_1.default.command("/quizbot", ({ ack, payload }) => {
         ack();
         performQuizAction(payload);
     });
-    bolt_1.default.view('submit_score', (event) => __awaiter(void 0, void 0, void 0, function* () {
+    bolt_1.default.view("submit_score", (event) => __awaiter(void 0, void 0, void 0, function* () {
         const { ack, view } = event;
         ack();
         Messages_1.updateMessageWithStats(view.state.values, view.private_metadata);
-        utils_1.log('submit_score');
+        utils_1.log("submit_score");
     }));
-    bolt_1.default.action('register_score', ({ ack, body }) => {
+    bolt_1.default.action("register_score", ({ ack, body }) => {
         ack();
         //@ts-ignore
         const triggerId = body.trigger_id;
