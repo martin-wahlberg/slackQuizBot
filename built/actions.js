@@ -19,10 +19,12 @@ const Messages_1 = require("./Messages");
 const performQuizAction = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     //Registrert bruker actions
     console.log(payload);
+    console.log(yield utils_1.checkIfUserExists(payload.user_name));
     if (yield utils_1.checkIfUserExists(payload.user_name)) {
         switch (true) {
             case !!payload.text.toLowerCase().match(/addUser/gi):
                 utils_1.log("add_user");
+                console.log("inne");
                 utils_1.addUser(payload.user_name, payload.text);
                 return;
             case !!payload.text.toLowerCase().match(/quizTime/gi):

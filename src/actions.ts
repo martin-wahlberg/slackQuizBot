@@ -7,10 +7,13 @@ import { quizMessage, updateMessageWithStats } from "./Messages";
 const performQuizAction = async (payload: SlashCommand) => {
   //Registrert bruker actions
   console.log(payload);
+  console.log(await checkIfUserExists(payload.user_name));
+
   if (await checkIfUserExists(payload.user_name)) {
     switch (true) {
       case !!payload.text.toLowerCase().match(/addUser/gi):
         log("add_user");
+        console.log("inne");
         addUser(payload.user_name, payload.text);
         return;
 
