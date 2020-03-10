@@ -1,28 +1,34 @@
 import boltApp from '../bolt';
 import { updateScores, getPointEmoji } from '../utils';
 
-export const quizMessage = {
-  token: process.env.SLACK_BOT_TOKEN,
-  channel: process.env.QUIZ_CHANNEL_ID || '',
-  text: `Nå er det tid for quiz! :medal:`,
-  blocks: [
-    {
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: `Nå er det tid for quiz! :medal:`
-      },
-      accessory: {
-        type: 'button',
+export const quizMessage = (time?: string) => {
+  const text = time
+    ? `Det er straks tid for quiz! :medal:\nQuizen starter ${time}`
+    : `Nå er det tid for quiz! :medal:`;
+
+  return {
+    token: process.env.SLACK_BOT_TOKEN,
+    channel: process.env.QUIZ_CHANNEL_ID || '',
+    text,
+    blocks: [
+      {
+        type: 'section',
         text: {
-          type: 'plain_text',
-          text: 'Registrer resultat',
-          emoji: true
+          type: 'mrkdwn',
+          text
         },
-        action_id: 'register_score'
+        accessory: {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: 'Registrer resultat',
+            emoji: true
+          },
+          action_id: 'register_score'
+        }
       }
-    }
-  ]
+    ]
+  };
 };
 
 export const updateMessageWithStats = async (input: Object, ts: string) => {

@@ -14,9 +14,8 @@ export const addUser = async (addedBy: string, userName: string) => {
 export const checkIfUserExists = async (userName: string) => {
   const users = await getFromDb<User[]>('users');
   return (
-    (!!users?.length &&
-      process.env.SUPER_ADMIN &&
-      !!userName.includes(process.env.SUPER_ADMIN)) ||
+    ((!!users?.length || process.env.SUPER_ADMIN) &&
+      !!userName.includes(process.env.SUPER_ADMIN || '')) ||
     !!users?.find(cur => cur.userName.includes(userName))
   );
 };
@@ -38,21 +37,17 @@ export const log = async (key: string) => {
 };
 
 export const openModal = (trigger_id: string, view: View) => {
-  try {
-    boltApp.client.views
-      .open({
-        token: process.env.SLACK_BOT_TOKEN,
-        // Pass a valid trigger_id within 3 seconds of receiving it
-        trigger_id: trigger_id,
-        // View payload
-        view
-      })
-      .catch(err => {
-        console.log('Open modal error', err);
-      });
-  } catch (error) {
-    console.log('Open modal error', error);
-  }
+  boltApp.client.views
+    .open({
+      token: process.env.SLACK_BOT_TOKEN,
+      // Pass a valid trigger_id within 3 seconds of receiving it
+      trigger_id: trigger_id,
+      // View payload
+      view
+    })
+    .catch(err => {
+      console.log('Open modal error', err);
+    });
 };
 
 const getDay = (dayNumber: number) => {

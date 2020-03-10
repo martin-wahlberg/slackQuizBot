@@ -14,28 +14,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bolt_1 = __importDefault(require("../bolt"));
 const utils_1 = require("../utils");
-exports.quizMessage = {
-    token: process.env.SLACK_BOT_TOKEN,
-    channel: process.env.QUIZ_CHANNEL_ID || '',
-    text: `Nå er det tid for quiz! :medal:`,
-    blocks: [
-        {
-            type: 'section',
-            text: {
-                type: 'mrkdwn',
-                text: `Nå er det tid for quiz! :medal:`
-            },
-            accessory: {
-                type: 'button',
+exports.quizMessage = (time) => {
+    const text = time
+        ? `Det er straks tid for quiz! :medal:\nQuizen starter ${time}`
+        : `Nå er det tid for quiz! :medal:`;
+    return {
+        token: process.env.SLACK_BOT_TOKEN,
+        channel: process.env.QUIZ_CHANNEL_ID || '',
+        text,
+        blocks: [
+            {
+                type: 'section',
                 text: {
-                    type: 'plain_text',
-                    text: 'Registrer resultat',
-                    emoji: true
+                    type: 'mrkdwn',
+                    text
                 },
-                action_id: 'register_score'
+                accessory: {
+                    type: 'button',
+                    text: {
+                        type: 'plain_text',
+                        text: 'Registrer resultat',
+                        emoji: true
+                    },
+                    action_id: 'register_score'
+                }
             }
-        }
-    ]
+        ]
+    };
 };
 exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0, function* () {
     const formState = input;

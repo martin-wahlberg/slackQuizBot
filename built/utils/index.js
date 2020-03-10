@@ -24,9 +24,8 @@ exports.addUser = (addedBy, userName) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.checkIfUserExists = (userName) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield db_1.getFromDb('users');
-    return ((!!(users === null || users === void 0 ? void 0 : users.length) &&
-        process.env.SUPER_ADMIN &&
-        !!userName.includes(process.env.SUPER_ADMIN)) ||
+    return (((!!(users === null || users === void 0 ? void 0 : users.length) || process.env.SUPER_ADMIN) &&
+        !!userName.includes(process.env.SUPER_ADMIN || '')) ||
         !!(users === null || users === void 0 ? void 0 : users.find(cur => cur.userName.includes(userName))));
 });
 let logging = false;
@@ -46,22 +45,17 @@ exports.log = (key) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.openModal = (trigger_id, view) => {
-    try {
-        bolt_1.default.client.views
-            .open({
-            token: process.env.SLACK_BOT_TOKEN,
-            // Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id: trigger_id,
-            // View payload
-            view
-        })
-            .catch(err => {
-            console.log('Open modal error', err);
-        });
-    }
-    catch (error) {
-        console.log('Open modal error', error);
-    }
+    bolt_1.default.client.views
+        .open({
+        token: process.env.SLACK_BOT_TOKEN,
+        // Pass a valid trigger_id within 3 seconds of receiving it
+        trigger_id: trigger_id,
+        // View payload
+        view
+    })
+        .catch(err => {
+        console.log('Open modal error', err);
+    });
 };
 const getDay = (dayNumber) => {
     switch (dayNumber) {
