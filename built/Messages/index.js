@@ -16,8 +16,8 @@ const bolt_1 = __importDefault(require("../bolt"));
 const utils_1 = require("../utils");
 exports.quizMessage = (time) => {
     const text = time
-        ? `Det er straks tid for quiz! :medal:\nQuizen starter ${time}`
-        : `Nå er det tid for quiz! :medal:`;
+        ? `Det er straks tid for quiz! :medal:\nQuizen starter ${time}\n<!channel>`
+        : `Nå er det tid for quiz! :medal:\n<!channel>`;
     return {
         token: process.env.SLACK_BOT_TOKEN,
         channel: process.env.QUIZ_CHANNEL_ID || '',
