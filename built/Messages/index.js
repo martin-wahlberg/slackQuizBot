@@ -104,9 +104,7 @@ exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0
                 type: 'plain_text',
                 emoji: true,
                 text: weekBestDay +
-                    `\nTotalt denne uken er det ${weekPoints} poeng og ${weekBonus} bonuspoeng med en gjennomittscore på ${(weekBonus +
-                        weekPoints) /
-                        days} poeng per quiz! :bow:`
+                    `\nTotalt denne uken er det ${weekPoints} poeng og ${weekBonus} bonuspoeng med en gjennomittscore på ${Number((weekBonus + weekPoints) / days).toFixed(1)} poeng per quiz! :bow:`
             }
         });
         blocks.push({

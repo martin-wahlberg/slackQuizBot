@@ -125,9 +125,9 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
         emoji: true,
         text:
           weekBestDay +
-          `\nTotalt denne uken er det ${weekPoints} poeng og ${weekBonus} bonuspoeng med en gjennomittscore på ${(weekBonus +
-            weekPoints) /
-            days} poeng per quiz! :bow:`
+          `\nTotalt denne uken er det ${weekPoints} poeng og ${weekBonus} bonuspoeng med en gjennomittscore på ${Number(
+            (weekBonus + weekPoints) / days
+          ).toFixed(1)} poeng per quiz! :bow:`
       }
     });
     blocks.push({
