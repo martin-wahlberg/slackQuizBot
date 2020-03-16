@@ -79,17 +79,17 @@ const makeWeekDayObject = (points: number, bonus: number, day?: string) => ({
 
 const updateWeek = (newDay: { [day: string]: Day }, week?: Week): Week => {
   const weekNumber = moment().week();
-  const isNotCurrentWeek = week?.weekNumber !== weekNumber;
+  const isCurrentWeek = week?.weekNumber !== weekNumber;
 
   const thisWeek = {
-    ...week,
+    ...(isCurrentWeek && week),
     days: { ...week?.days, ...newDay },
     weekNumber:
       (weekNumber === week?.weekNumber && week.weekNumber) || weekNumber,
     weekLastUpdated: moment().valueOf()
   };
 
-  if (isNotCurrentWeek) {
+  if (!isCurrentWeek) {
     pushToDb('pastWeeks', week);
   }
 

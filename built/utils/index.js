@@ -84,9 +84,9 @@ const makeWeekDayObject = (points, bonus, day) => ({
 });
 const updateWeek = (newDay, week) => {
     const weekNumber = moment().week();
-    const isNotCurrentWeek = (week === null || week === void 0 ? void 0 : week.weekNumber) !== weekNumber;
-    const thisWeek = Object.assign(Object.assign({}, week), { days: Object.assign(Object.assign({}, week === null || week === void 0 ? void 0 : week.days), newDay), weekNumber: (weekNumber === (week === null || week === void 0 ? void 0 : week.weekNumber) && week.weekNumber) || weekNumber, weekLastUpdated: moment().valueOf() });
-    if (isNotCurrentWeek) {
+    const isCurrentWeek = (week === null || week === void 0 ? void 0 : week.weekNumber) !== weekNumber;
+    const thisWeek = Object.assign(Object.assign({}, (isCurrentWeek && week)), { days: Object.assign(Object.assign({}, week === null || week === void 0 ? void 0 : week.days), newDay), weekNumber: (weekNumber === (week === null || week === void 0 ? void 0 : week.weekNumber) && week.weekNumber) || weekNumber, weekLastUpdated: moment().valueOf() });
+    if (!isCurrentWeek) {
         db_1.pushToDb('pastWeeks', week);
     }
     db_1.writeToDb('currentWeek', thisWeek);
