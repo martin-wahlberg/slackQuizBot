@@ -79,11 +79,11 @@ const makeWeekDayObject = (points: number, bonus: number, day?: string) => ({
 
 const updateWeek = (newDay: { [day: string]: Day }, week?: Week): Week => {
   const weekNumber = moment().week();
-  const isCurrentWeek = week?.weekNumber !== weekNumber;
+  const isCurrentWeek = week?.weekNumber === weekNumber;
 
   const thisWeek = {
     ...(isCurrentWeek && week),
-    days: { ...week?.days, ...newDay },
+    days: { ...(isCurrentWeek && week?.days), ...newDay },
     weekNumber:
       (weekNumber === week?.weekNumber && week.weekNumber) || weekNumber,
     weekLastUpdated: moment().valueOf()
