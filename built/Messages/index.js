@@ -45,7 +45,7 @@ exports.quizMessage = (time) => {
 exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0, function* () {
     const formState = input;
     let legitimatePoints = parseInt(formState.legitimate.legitimate.value);
-    let bonusPoints = parseFloat(formState.bonus.bonus.value);
+    let bonusPoints = parseFloat(formState.bonus.bonus.value) || 0;
     legitimatePoints = legitimatePoints > 10 ? 10 : legitimatePoints;
     bonusPoints =
         legitimatePoints + bonusPoints > 10 ? 10 - legitimatePoints : bonusPoints;

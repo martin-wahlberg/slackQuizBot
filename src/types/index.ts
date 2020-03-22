@@ -12,7 +12,9 @@ interface Day {
 interface Week {
   days: Record<string, Day>;
   weekNumber: number;
-  completed?: boolean;
+  totalPoints?: number;
+  totalBonus?: number;
+  totalCombined?: number;
 }
 
 interface Streak {

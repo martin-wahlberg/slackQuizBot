@@ -14,9 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const actions_1 = __importDefault(require("./actions"));
 const bolt_1 = __importDefault(require("./bolt"));
+const firebase_1 = require("./firebase");
 //import cronJobs from './CronJobs';
 actions_1.default();
 //cronJobs();
+const test = () => {
+    firebase_1.databaseRef
+        .child('pastWeeks')
+        .orderByChild('weekLastUpdated')
+        .once('value')
+        .then(snapshot => console.log(Object.values(snapshot.val())));
+};
+test();
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield bolt_1.default.start(process.env.PORT || 3000);
     console.log('⚡️ Bolt app is running!');

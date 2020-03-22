@@ -23,6 +23,6 @@ exports.pushToDb = (keyPath, data) => firebase_1.databaseRef
     .child(keyPath)
     .push(data)
     .catch(err => {
-    console.log('writeToDb', err);
+    console.log('pushToDb', err);
 });
 //# sourceMappingURL=db.js.map

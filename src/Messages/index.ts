@@ -34,7 +34,7 @@ export const quizMessage = (time?: string) => {
 export const updateMessageWithStats = async (input: Object, ts: string) => {
   const formState = input as ScoreFormInput;
   let legitimatePoints = parseInt(formState.legitimate.legitimate.value);
-  let bonusPoints = parseFloat(formState.bonus.bonus.value);
+  let bonusPoints = parseFloat(formState.bonus.bonus.value) || 0;
 
   legitimatePoints = legitimatePoints > 10 ? 10 : legitimatePoints;
 

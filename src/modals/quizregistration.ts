@@ -40,6 +40,7 @@ const getQuizRegistrationModal = (messageTs: string) => {
       },
       {
         type: 'input',
+        optional: true,
         block_id: 'bonus',
         element: {
           action_id: 'bonus',

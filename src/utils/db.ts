@@ -28,5 +28,5 @@ export const pushToDb = (keyPath: string, data: any) =>
     .child(keyPath)
     .push(data)
     .catch(err => {
-      console.log('writeToDb', err);
+      console.log('pushToDb', err);
     });

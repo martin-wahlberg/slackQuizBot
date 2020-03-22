@@ -58,7 +58,7 @@ exports.openModal = (trigger_id, view) => {
     });
 };
 const getDay = (dayNumber) => {
-    switch (dayNumber) {
+    switch (dayNumber + 5) {
         case 0:
             return 'søndag';
         case 1:
@@ -87,7 +87,13 @@ const updateWeek = (newDay, week) => {
     const isCurrentWeek = (week === null || week === void 0 ? void 0 : week.weekNumber) === weekNumber;
     const thisWeek = Object.assign(Object.assign({}, (isCurrentWeek && week)), { days: Object.assign(Object.assign({}, (isCurrentWeek && (week === null || week === void 0 ? void 0 : week.days))), newDay), weekNumber: (weekNumber === (week === null || week === void 0 ? void 0 : week.weekNumber) && week.weekNumber) || weekNumber, weekLastUpdated: moment().valueOf() });
     if (!isCurrentWeek) {
-        db_1.pushToDb('pastWeeks', week);
+        db_1.pushToDb('pastWeeks', Object.assign(Object.assign({}, week), { totalPoints: week
+                ? Object.values(week.days).reduce((acc, cur) => (cur.points ? acc + cur.points : acc), 0)
+                : null, totalBonus: week
+                ? Object.values(week.days).reduce((acc, cur) => (cur.bonus ? acc + cur.bonus : acc), 0)
+                : null, totalCombined: week
+                ? Object.values(week.days).reduce((acc, cur) => cur.bonus + cur.points + acc, 0)
+                : null }));
     }
     db_1.writeToDb('currentWeek', thisWeek);
     return thisWeek;
