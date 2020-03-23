@@ -97,7 +97,8 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
   const text = `I dag ble det totalt ${todayCombined} poeng${
     streak ? streakText : getPointEmoji(todayPoints)
   }`;
-  const blocks = [
+
+  const blocks: any[] = [
     {
       type: 'context',
       elements: [
@@ -113,6 +114,28 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
         type: 'plain_text',
         text,
         emoji: true
+      },
+      accessory: {
+        type: 'overflow',
+        action_id: 'quiz_stats',
+        options: [
+          {
+            text: {
+              type: 'plain_text',
+              text: 'Se beste uke',
+              emoji: true
+            },
+            value: 'bestWeek'
+          },
+          {
+            text: {
+              type: 'plain_text',
+              text: 'Se forrige uke',
+              emoji: true
+            },
+            value: 'lastWeek'
+          }
+        ]
       }
     }
   ];

@@ -169,3 +169,6 @@ export const getPointEmoji = (points: number) => {
       break;
   }
 };
+
+export const getChartImageUrl = (data: object) =>
+  `https://quickchart.io/chart?bkg=white&c=${JSON.stringify(data)}`;

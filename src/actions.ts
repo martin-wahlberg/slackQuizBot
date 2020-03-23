@@ -1,8 +1,9 @@
 import boltApp from './bolt';
-import { SlashCommand } from '@slack/bolt';
+import { SlashCommand, OverflowAction } from '@slack/bolt';
 import { addUser, log, checkIfUserExists, openModal } from './utils';
 import getQuizRegistrationModal from './modals/quizregistration';
 import { quizMessage, updateMessageWithStats } from './Messages';
+import getWeekWithGraphModal, { WeekTypes } from './modals/weekWithGraph';
 
 const performQuizAction = async (payload: SlashCommand) => {
   console.log(payload.user_name);
@@ -21,6 +22,23 @@ const performQuizAction = async (payload: SlashCommand) => {
         );
         return;
     }
+  }
+};
+
+const performOverflowAction = (payload: OverflowAction, triggerId: string) => {
+  const { value } = payload.selected_option;
+  switch (true) {
+    case !!value.match(/bestWeek/gi):
+      getWeekWithGraphModal(WeekTypes.BEST_WEEK).then(view =>
+        openModal(triggerId, view)
+      );
+      return;
+
+    case !!value.match(/lastWeek/gi):
+      getWeekWithGraphModal(WeekTypes.LAST_WEEK).then(view =>
+        openModal(triggerId, view)
+      );
+      return;
   }
 };
 
@@ -44,6 +62,14 @@ const actions = () => {
     //@ts-ignore
     const messageTs: string = body.message.ts;
     openModal(triggerId, getQuizRegistrationModal(messageTs));
+  });
+
+  boltApp.action('quiz_stats', event => {
+    const { ack, payload, body } = event;
+    //@ts-ignore
+    const triggerId = body.trigger_id;
+    ack();
+    performOverflowAction(payload as OverflowAction, triggerId);
   });
 };
 

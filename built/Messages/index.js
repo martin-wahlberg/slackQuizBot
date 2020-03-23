@@ -94,6 +94,28 @@ exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0
                 type: 'plain_text',
                 text,
                 emoji: true
+            },
+            accessory: {
+                type: 'overflow',
+                action_id: 'quiz_stats',
+                options: [
+                    {
+                        text: {
+                            type: 'plain_text',
+                            text: 'Se beste uke',
+                            emoji: true
+                        },
+                        value: 'bestWeek'
+                    },
+                    {
+                        text: {
+                            type: 'plain_text',
+                            text: 'Se forrige uke',
+                            emoji: true
+                        },
+                        value: 'lastWeek'
+                    }
+                ]
             }
         }
     ];

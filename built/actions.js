@@ -11,11 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const bolt_1 = __importDefault(require("./bolt"));
 const utils_1 = require("./utils");
 const quizregistration_1 = __importDefault(require("./modals/quizregistration"));
 const Messages_1 = require("./Messages");
+const weekWithGraph_1 = __importStar(require("./modals/weekWithGraph"));
 const performQuizAction = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(payload.user_name);
     //Registrert bruker actions
@@ -32,6 +40,17 @@ const performQuizAction = (payload) => __awaiter(void 0, void 0, void 0, functio
         }
     }
 });
+const performOverflowAction = (payload, triggerId) => {
+    const { value } = payload.selected_option;
+    switch (true) {
+        case !!value.match(/bestWeek/gi):
+            weekWithGraph_1.default(weekWithGraph_1.WeekTypes.BEST_WEEK).then(view => utils_1.openModal(triggerId, view));
+            return;
+        case !!value.match(/lastWeek/gi):
+            weekWithGraph_1.default(weekWithGraph_1.WeekTypes.LAST_WEEK).then(view => utils_1.openModal(triggerId, view));
+            return;
+    }
+};
 const actions = () => {
     bolt_1.default.command('/quizbot', ({ ack, payload }) => {
         ack();
@@ -50,6 +69,13 @@ const actions = () => {
         //@ts-ignore
         const messageTs = body.message.ts;
         utils_1.openModal(triggerId, quizregistration_1.default(messageTs));
+    });
+    bolt_1.default.action('quiz_stats', event => {
+        const { ack, payload, body } = event;
+        //@ts-ignore
+        const triggerId = body.trigger_id;
+        ack();
+        performOverflowAction(payload, triggerId);
     });
 };
 exports.default = actions;

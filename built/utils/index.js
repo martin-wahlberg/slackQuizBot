@@ -145,4 +145,5 @@ exports.getPointEmoji = (points) => {
             break;
     }
 };
+exports.getChartImageUrl = (data) => `https://quickchart.io/chart?bkg=white&c=${JSON.stringify(data)}`;
 //# sourceMappingURL=index.js.map
