@@ -14,7 +14,7 @@ const getWeek = (weekType: WeekTypes) => {
   switch (true) {
     case weekType == WeekTypes.BEST_WEEK:
       return pastWeeks
-        .orderByChild('weekLastUpdated')
+        .orderByChild('totalPoints')
         .limitToLast(1)
         .once('value')
         .then(snapshot => snapshot.val());
@@ -28,7 +28,7 @@ const getWeek = (weekType: WeekTypes) => {
 
     case weekType == WeekTypes.WORST_WEEK:
       return pastWeeks
-        .orderByChild('weekNumber')
+        .orderByChild('totalPoints')
         .limitToFirst(1)
         .once('value')
         .then(snapshot => snapshot.val());
