@@ -15,6 +15,7 @@ var WeekTypes;
 (function (WeekTypes) {
     WeekTypes["BEST_WEEK"] = "bestWeek";
     WeekTypes["LAST_WEEK"] = "lastWeek";
+    WeekTypes["WORST_WEEK"] = "worstWeek";
 })(WeekTypes = exports.WeekTypes || (exports.WeekTypes = {}));
 const getWeek = (weekType) => {
     const pastWeeks = firebase_1.databaseRef.child('pastWeeks');
@@ -31,10 +32,15 @@ const getWeek = (weekType) => {
                 .limitToLast(1)
                 .once('value')
                 .then(snapshot => snapshot.val());
-        default:
+        case weekType == WeekTypes.WORST_WEEK:
             return pastWeeks
                 .orderByChild('weekNumber')
                 .limitToFirst(1)
+                .once('value')
+                .then(snapshot => snapshot.val());
+        default:
+            return pastWeeks
+                .orderByChild('weekNumber')
                 .once('value')
                 .then(snapshot => snapshot.val());
     }
@@ -42,31 +48,52 @@ const getWeek = (weekType) => {
 const getWeekText = (weekType, weekContent) => {
     switch (true) {
         case weekType === WeekTypes.BEST_WEEK:
-            return `Uke ${weekContent.weekNumber} er beste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
+            return `Uke ${weekContent.weekNumber} er den beste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
+        case weekType === WeekTypes.WORST_WEEK:
+            return `Uke ${weekContent.weekNumber} er den værste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :shit:`;
         case weekType === WeekTypes.LAST_WEEK:
             return `Forrige uke ble det totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
         default:
             return 'Nå skjedde det no feil her...';
     }
 };
+const getWeekTitle = (weekType) => {
+    switch (true) {
+        case weekType === WeekTypes.BEST_WEEK:
+            return 'Beste uke';
+        case weekType === WeekTypes.WORST_WEEK:
+            return 'Værste uke';
+        case weekType === WeekTypes.LAST_WEEK:
+            return 'Forrige uke';
+        default:
+            return ':thinking_face:';
+    }
+};
 const getWeekWithGraphModal = (weekType) => __awaiter(void 0, void 0, void 0, function* () {
     const week = getWeek(weekType);
     const weekData = yield week;
     const weekContent = weekData && Object.values(weekData)[0];
-    const weekDays = weekContent && Object.entries(weekContent.days);
+    const weekDays = weekContent &&
+        Object.entries(weekContent.days)
+            .map(cur => ({
+            day: cur[0],
+            points: cur[1].points,
+            bonus: cur[1].bonus
+        }))
+            .sort((a, b) => utils_1.getWeekDayNumber(a.day) - utils_1.getWeekDayNumber(b.day));
     const chartImageUrl = weekDays &&
         utils_1.getChartImageUrl({
             type: 'bar',
             data: {
-                labels: weekDays.map(cur => cur[0]),
+                labels: weekDays.map(cur => cur.day),
                 datasets: [
                     {
                         label: 'Legitime poeng',
-                        data: weekDays.map(cur => cur[1].points)
+                        data: weekDays.map(cur => cur.points)
                     },
                     {
                         label: 'Bonuspoeng',
-                        data: weekDays.map(cur => cur[1].bonus)
+                        data: weekDays.map(cur => cur.bonus)
                     }
                 ]
             }
@@ -96,22 +123,16 @@ const getWeekWithGraphModal = (weekType) => __awaiter(void 0, void 0, void 0, fu
                 }
             }
         ];
-    console.log(chartImageUrl);
     const modal = {
         type: 'modal',
         title: {
             type: 'plain_text',
-            text: 'Beste uke',
-            emoji: true
-        },
-        submit: {
-            type: 'plain_text',
-            text: 'Submit',
+            text: getWeekTitle(weekType),
             emoji: true
         },
         close: {
             type: 'plain_text',
-            text: 'Cancel',
+            text: 'Lukk',
             emoji: true
         },
         blocks

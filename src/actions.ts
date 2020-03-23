@@ -39,6 +39,12 @@ const performOverflowAction = (payload: OverflowAction, triggerId: string) => {
         openModal(triggerId, view)
       );
       return;
+
+    case !!value.match(/worstWeek/gi):
+      getWeekWithGraphModal(WeekTypes.WORST_WEEK).then(view =>
+        openModal(triggerId, view)
+      );
+      return;
   }
 };
 

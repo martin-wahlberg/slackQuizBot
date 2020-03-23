@@ -58,7 +58,7 @@ exports.openModal = (trigger_id, view) => {
     });
 };
 const getDay = (dayNumber) => {
-    switch (dayNumber + 5) {
+    switch (dayNumber) {
         case 0:
             return 'søndag';
         case 1:
@@ -146,4 +146,24 @@ exports.getPointEmoji = (points) => {
     }
 };
 exports.getChartImageUrl = (data) => `https://quickchart.io/chart?bkg=white&c=${JSON.stringify(data)}`;
+exports.getWeekDayNumber = (day) => {
+    switch (day) {
+        case 'mandag':
+            return 1;
+        case 'tirsdag':
+            return 2;
+        case 'onsdag':
+            return 3;
+        case 'torsdag':
+            return 4;
+        case 'fredag':
+            return 5;
+        case 'lørdag':
+            return 6;
+        case 'søndag':
+            return 7;
+        default:
+            return 8;
+    }
+};
 //# sourceMappingURL=index.js.map

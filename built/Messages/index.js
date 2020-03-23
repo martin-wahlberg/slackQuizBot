@@ -102,7 +102,7 @@ exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0
                     {
                         text: {
                             type: 'plain_text',
-                            text: 'Se forrige uke',
+                            text: 'Se forrige uke :pager:',
                             emoji: true
                         },
                         value: 'lastWeek'
@@ -110,10 +110,18 @@ exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0
                     {
                         text: {
                             type: 'plain_text',
-                            text: 'Se beste uke',
+                            text: 'Se beste uke :fire:',
                             emoji: true
                         },
                         value: 'bestWeek'
+                    },
+                    {
+                        text: {
+                            type: 'plain_text',
+                            text: 'Se værste uke :shit:',
+                            emoji: true
+                        },
+                        value: 'worstWeek'
                     }
                 ]
             }

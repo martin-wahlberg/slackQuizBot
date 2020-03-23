@@ -51,7 +51,7 @@ export const openModal = (trigger_id: string, view: View) => {
 };
 
 const getDay = (dayNumber: number) => {
-  switch (dayNumber + 5) {
+  switch (dayNumber) {
     case 0:
       return 'søndag';
     case 1:
@@ -172,3 +172,24 @@ export const getPointEmoji = (points: number) => {
 
 export const getChartImageUrl = (data: object) =>
   `https://quickchart.io/chart?bkg=white&c=${JSON.stringify(data)}`;
+
+export const getWeekDayNumber = (day: string): number => {
+  switch (day) {
+    case 'mandag':
+      return 1;
+    case 'tirsdag':
+      return 2;
+    case 'onsdag':
+      return 3;
+    case 'torsdag':
+      return 4;
+    case 'fredag':
+      return 5;
+    case 'lørdag':
+      return 6;
+    case 'søndag':
+      return 7;
+    default:
+      return 8;
+  }
+};

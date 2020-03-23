@@ -26,3 +26,9 @@ interface ScoreFormInput {
   bonus: { bonus: { value: string } };
   legitimate: { legitimate: { value: string } };
 }
+
+interface DayPointsObject {
+  day?: string;
+  points?: number;
+  bonus?: number;
+}

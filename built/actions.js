@@ -49,6 +49,9 @@ const performOverflowAction = (payload, triggerId) => {
         case !!value.match(/lastWeek/gi):
             weekWithGraph_1.default(weekWithGraph_1.WeekTypes.LAST_WEEK).then(view => utils_1.openModal(triggerId, view));
             return;
+        case !!value.match(/worstWeek/gi):
+            weekWithGraph_1.default(weekWithGraph_1.WeekTypes.WORST_WEEK).then(view => utils_1.openModal(triggerId, view));
+            return;
     }
 };
 const actions = () => {

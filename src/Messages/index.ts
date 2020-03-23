@@ -122,7 +122,7 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
           {
             text: {
               type: 'plain_text',
-              text: 'Se forrige uke',
+              text: 'Se forrige uke :pager:',
               emoji: true
             },
             value: 'lastWeek'
@@ -130,10 +130,18 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
           {
             text: {
               type: 'plain_text',
-              text: 'Se beste uke',
+              text: 'Se beste uke :fire:',
               emoji: true
             },
             value: 'bestWeek'
+          },
+          {
+            text: {
+              type: 'plain_text',
+              text: 'Se værste uke :shit:',
+              emoji: true
+            },
+            value: 'worstWeek'
           }
         ]
       }

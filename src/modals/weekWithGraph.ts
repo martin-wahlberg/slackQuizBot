@@ -1,10 +1,11 @@
 import { View } from '@slack/web-api';
 import { databaseRef } from '../firebase';
-import { getChartImageUrl } from '../utils';
+import { getChartImageUrl, getWeekDayNumber } from '../utils';
 
 export enum WeekTypes {
   BEST_WEEK = 'bestWeek',
-  LAST_WEEK = 'lastWeek'
+  LAST_WEEK = 'lastWeek',
+  WORST_WEEK = 'worstWeek'
 }
 
 const getWeek = (weekType: WeekTypes) => {
@@ -25,10 +26,16 @@ const getWeek = (weekType: WeekTypes) => {
         .once('value')
         .then(snapshot => snapshot.val());
 
-    default:
+    case weekType == WeekTypes.WORST_WEEK:
       return pastWeeks
         .orderByChild('weekNumber')
         .limitToFirst(1)
+        .once('value')
+        .then(snapshot => snapshot.val());
+
+    default:
+      return pastWeeks
+        .orderByChild('weekNumber')
         .once('value')
         .then(snapshot => snapshot.val());
   }
@@ -37,7 +44,9 @@ const getWeek = (weekType: WeekTypes) => {
 const getWeekText = (weekType: WeekTypes, weekContent: Week) => {
   switch (true) {
     case weekType === WeekTypes.BEST_WEEK:
-      return `Uke ${weekContent.weekNumber} er beste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
+      return `Uke ${weekContent.weekNumber} er den beste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
+    case weekType === WeekTypes.WORST_WEEK:
+      return `Uke ${weekContent.weekNumber} er den værste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :shit:`;
     case weekType === WeekTypes.LAST_WEEK:
       return `Forrige uke ble det totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
 
@@ -46,27 +55,49 @@ const getWeekText = (weekType: WeekTypes, weekContent: Week) => {
   }
 };
 
+const getWeekTitle = (weekType: WeekTypes) => {
+  switch (true) {
+    case weekType === WeekTypes.BEST_WEEK:
+      return 'Beste uke';
+    case weekType === WeekTypes.WORST_WEEK:
+      return 'Værste uke';
+    case weekType === WeekTypes.LAST_WEEK:
+      return 'Forrige uke';
+
+    default:
+      return ':thinking_face:';
+  }
+};
+
 const getWeekWithGraphModal = async (weekType: WeekTypes) => {
   const week = getWeek(weekType);
   const weekData: { [key: string]: Week } | undefined = await week;
   const weekContent = weekData && Object.values(weekData)[0];
 
-  const weekDays = weekContent && Object.entries(weekContent.days);
+  const weekDays: DayPointsObject[] | undefined =
+    weekContent &&
+    Object.entries(weekContent.days)
+      .map(cur => ({
+        day: cur[0],
+        points: cur[1].points,
+        bonus: cur[1].bonus
+      }))
+      .sort((a, b) => getWeekDayNumber(a.day) - getWeekDayNumber(b.day));
 
   const chartImageUrl =
     weekDays &&
     getChartImageUrl({
       type: 'bar',
       data: {
-        labels: weekDays.map(cur => cur[0]),
+        labels: weekDays.map(cur => cur.day),
         datasets: [
           {
             label: 'Legitime poeng',
-            data: weekDays.map(cur => cur[1].points)
+            data: weekDays.map(cur => cur.points)
           },
           {
             label: 'Bonuspoeng',
-            data: weekDays.map(cur => cur[1].bonus)
+            data: weekDays.map(cur => cur.bonus)
           }
         ]
       }
@@ -99,23 +130,16 @@ const getWeekWithGraphModal = async (weekType: WeekTypes) => {
         }
       ];
 
-  console.log(chartImageUrl);
-
   const modal: View = {
     type: 'modal',
     title: {
       type: 'plain_text',
-      text: 'Beste uke',
-      emoji: true
-    },
-    submit: {
-      type: 'plain_text',
-      text: 'Submit',
+      text: getWeekTitle(weekType),
       emoji: true
     },
     close: {
       type: 'plain_text',
-      text: 'Cancel',
+      text: 'Lukk',
       emoji: true
     },
     blocks
