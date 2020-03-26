@@ -60,7 +60,7 @@ const getWeekTitle = (weekType: WeekTypes) => {
     case weekType === WeekTypes.BEST_WEEK:
       return 'Beste uke';
     case weekType === WeekTypes.WORST_WEEK:
-      return 'Værste uke';
+      return 'Verste uke';
     case weekType === WeekTypes.LAST_WEEK:
       return 'Forrige uke';
 
