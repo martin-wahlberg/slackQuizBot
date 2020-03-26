@@ -46,7 +46,7 @@ const getWeekText = (weekType: WeekTypes, weekContent: Week) => {
     case weekType === WeekTypes.BEST_WEEK:
       return `Uke ${weekContent.weekNumber} er den beste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
     case weekType === WeekTypes.WORST_WEEK:
-      return `Uke ${weekContent.weekNumber} er den værste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :shit:`;
+      return `Uke ${weekContent.weekNumber} er den verste uken noen gang. Den uken fikk vi totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :shit:`;
     case weekType === WeekTypes.LAST_WEEK:
       return `Forrige uke ble det totalt ${weekContent.totalCombined} poeng hvorav ${weekContent.totalPoints} var legitime poeng og ${weekContent.totalBonus} var bonuspoeng :clap:`;
 
