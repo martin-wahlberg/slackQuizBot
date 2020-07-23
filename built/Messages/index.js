@@ -118,7 +118,7 @@ exports.updateMessageWithStats = (input, ts) => __awaiter(void 0, void 0, void 0
                     {
                         text: {
                             type: 'plain_text',
-                            text: 'Se værste uke :shit:',
+                            text: 'Se verste uke :shit:',
                             emoji: true
                         },
                         value: 'worstWeek'

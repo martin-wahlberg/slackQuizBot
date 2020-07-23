@@ -138,7 +138,7 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
           {
             text: {
               type: 'plain_text',
-              text: 'Se værste uke :shit:',
+              text: 'Se verste uke :shit:',
               emoji: true
             },
             value: 'worstWeek'
