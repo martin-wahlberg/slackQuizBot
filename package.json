@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "node ./built/app.js",
     "startdev": "node -r dotenv/config app.js",
