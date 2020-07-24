@@ -16,5 +16,5 @@ jobs:
       uses: vitalyliber/dokku-github-action@v4.0
       env:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        HOST: ${{ secrets.HOST }}
+        HOST: dokku.martinwahlberg.no
         PROJECT: gje-quizbot
