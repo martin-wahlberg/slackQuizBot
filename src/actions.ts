@@ -29,19 +29,19 @@ const performOverflowAction = (payload: OverflowAction, triggerId: string) => {
   const { value } = payload.selected_option;
   switch (true) {
     case !!value.match(/bestWeek/gi):
-      getWeekWithGraphModal(WeekTypes.BEST_WEEK).then(view =>
+      getWeekWithGraphModal(WeekTypes.BEST_WEEK).then((view) =>
         openModal(triggerId, view)
       );
       return;
 
     case !!value.match(/lastWeek/gi):
-      getWeekWithGraphModal(WeekTypes.LAST_WEEK).then(view =>
+      getWeekWithGraphModal(WeekTypes.LAST_WEEK).then((view) =>
         openModal(triggerId, view)
       );
       return;
 
     case !!value.match(/worstWeek/gi):
-      getWeekWithGraphModal(WeekTypes.WORST_WEEK).then(view =>
+      getWeekWithGraphModal(WeekTypes.WORST_WEEK).then((view) =>
         openModal(triggerId, view)
       );
       return;
@@ -49,19 +49,19 @@ const performOverflowAction = (payload: OverflowAction, triggerId: string) => {
 };
 
 const actions = () => {
-  boltApp.command('/quizbot', ({ ack, payload }) => {
+  boltApp.command('/quizbot', async ({ ack, payload }) => {
     ack();
     performQuizAction(payload);
   });
 
-  boltApp.view('submit_score', async event => {
+  boltApp.view('submit_score', async (event) => {
     const { ack, view } = event;
     ack();
     updateMessageWithStats(view.state.values, view.private_metadata);
     log('submit_score');
   });
 
-  boltApp.action('register_score', ({ ack, body }) => {
+  boltApp.action('register_score', async ({ ack, body }) => {
     ack();
     //@ts-ignore
     const triggerId = body.trigger_id;
@@ -70,7 +70,7 @@ const actions = () => {
     openModal(triggerId, getQuizRegistrationModal(messageTs));
   });
 
-  boltApp.action('quiz_stats', event => {
+  boltApp.action('quiz_stats', async (event) => {
     const { ack, payload, body } = event;
     //@ts-ignore
     const triggerId = body.trigger_id;

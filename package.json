@@ -16,13 +16,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "13.9.0",
+    "@types/node": "14.0.25",
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "@slack/bolt": "^1.7.0",
-    "@types/winston-loggly-bulk": "^3.0.0",
-    "firebase-admin": "^8.9.2",
-    "moment": "2.24.0"
+    "@slack/bolt": "2.1.1",
+    "@types/winston-loggly-bulk": "3.0.0",
+    "firebase-admin": "9.0.0",
+    "moment": "2.27.0"
   }
 }
