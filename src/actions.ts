@@ -4,6 +4,7 @@ import { addUser, log, checkIfUserExists, openModal } from './utils';
 import getQuizRegistrationModal from './modals/quizregistration';
 import { quizMessage, updateMessageWithStats } from './Messages';
 import getWeekWithGraphModal, { WeekTypes } from './modals/weekWithGraph';
+import nextWeekModal from './modals/nextWeek';
 
 const performQuizAction = async (payload: SlashCommand) => {
   console.log(payload.user_name);
@@ -44,6 +45,10 @@ const performOverflowAction = (payload: OverflowAction, triggerId: string) => {
       getWeekWithGraphModal(WeekTypes.WORST_WEEK).then((view) =>
         openModal(triggerId, view)
       );
+      return;
+
+    case !!value.match(/nextWeek/gi):
+      openModal(triggerId, nextWeekModal);
       return;
   }
 };

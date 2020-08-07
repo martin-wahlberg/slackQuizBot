@@ -15,19 +15,19 @@ export const quizMessage = (time?: string) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text
+          text,
         },
         accessory: {
           type: 'button',
           text: {
             type: 'plain_text',
             text: 'Registrer resultat',
-            emoji: true
+            emoji: true,
           },
-          action_id: 'register_score'
-        }
-      }
-    ]
+          action_id: 'register_score',
+        },
+      },
+    ],
   };
 };
 
@@ -50,7 +50,7 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
     weekPoints,
     weekBonus,
     days,
-    weekBestDay
+    weekBestDay,
   ] = [
     updatedScores.today.points,
     updatedScores.today.bonus,
@@ -79,7 +79,7 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
       return `Ukens beste dag er ${day} med ${dayData.points} poeng ${
         dayData.bonus ? `og ${dayData.bonus} bonuspoeng` : ''
       } :clap:`;
-    })()
+    })(),
   ];
 
   const streakText =
@@ -104,16 +104,16 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
       elements: [
         {
           type: 'mrkdwn',
-          text: `${todayPoints} poeng og ${todayBonus} bonuspoeng`
-        }
-      ]
+          text: `${todayPoints} poeng og ${todayBonus} bonuspoeng`,
+        },
+      ],
     },
     {
       type: 'section',
       text: {
         type: 'plain_text',
         text,
-        emoji: true
+        emoji: true,
       },
       accessory: {
         type: 'overflow',
@@ -123,29 +123,37 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
             text: {
               type: 'plain_text',
               text: 'Se forrige uke :pager:',
-              emoji: true
+              emoji: true,
             },
-            value: 'lastWeek'
+            value: 'lastWeek',
           },
           {
             text: {
               type: 'plain_text',
               text: 'Se beste uke :fire:',
-              emoji: true
+              emoji: true,
             },
-            value: 'bestWeek'
+            value: 'bestWeek',
           },
           {
             text: {
               type: 'plain_text',
               text: 'Se verste uke :shit:',
-              emoji: true
+              emoji: true,
             },
-            value: 'worstWeek'
-          }
-        ]
-      }
-    }
+            value: 'worstWeek',
+          },
+          {
+            text: {
+              type: 'plain_text',
+              text: 'Se neste uke :fast_forward:',
+              emoji: true,
+            },
+            value: 'nextWeek',
+          },
+        ],
+      },
+    },
   ];
 
   if (days > 1) {
@@ -158,17 +166,17 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
           weekBestDay +
           `\nTotalt denne uken er det ${weekPoints} poeng og ${weekBonus} bonuspoeng med en gjennomittscore på ${Number(
             (weekBonus + weekPoints) / days
-          ).toFixed(1)} poeng per quiz! :bow:`
-      }
+          ).toFixed(1)} poeng per quiz! :bow:`,
+      },
     });
     blocks.push({
       type: 'context',
       elements: [
         {
           type: 'mrkdwn',
-          text: `(${weekPoints}+${weekBonus})/${days}`
-        }
-      ]
+          text: `(${weekPoints}+${weekBonus})/${days}`,
+        },
+      ],
     });
   }
 
@@ -177,6 +185,6 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
     channel: process.env.QUIZ_CHANNEL_ID || '',
     ts,
     text,
-    blocks
+    blocks,
   });
 };
