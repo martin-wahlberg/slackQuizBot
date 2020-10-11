@@ -7,14 +7,14 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Dokku deploy
-      uses: vitalyliber/dokku-github-action@v5.0
-      env:
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        HOST: dokku.martinwahlberg.no
-        PROJECT: gje-quizbot
+      - uses: actions/checkout@v1
+      - name: Dokku deploy
+        uses: vitalyliber/dokku-github-action@v5.0
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          HOST: dokku.martinwahlberg.no
+          PROJECT: gje-quizbot
+          FORCE_DEPLOY: true
