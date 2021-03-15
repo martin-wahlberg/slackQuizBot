@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node ./built/app.js",
-    "startdev": "node -r dotenv/config app.js",
+    "dev": "node -r dotenv/config ./built/app.js",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,13 +16,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "14.0.25",
-    "typescript": "3.9.7"
+    "@types/node": "14.14.31",
+    "typescript": "4.2.2"
   },
   "dependencies": {
-    "@slack/bolt": "2.1.1",
+    "@slack/bolt": "3.2.0",
     "@types/winston-loggly-bulk": "3.0.0",
-    "firebase-admin": "9.0.0",
-    "moment": "2.27.0"
+    "dotenv": "^8.2.0",
+    "firebase-admin": "9.5.0",
+    "moment": "2.29.1"
   }
 }

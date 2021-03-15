@@ -2,21 +2,22 @@ import { writeToDb, getFromDb, pushToDb } from './db';
 import boltApp from '../bolt';
 import { View } from '@slack/web-api';
 import moment = require('moment');
+import { SLACK_BOT_TOKEN, SUPER_ADMIN } from '../constants/environment';
 
 export const addUser = async (addedBy: string, userName: string) => {
   const users = await getFromDb<User[]>('users');
   writeToDb('users', [
     ...(users || []),
-    { userName: userName.replace(/addUser/gi, '').trim(), addedBy }
+    { userName: userName.replace(/addUser/gi, '').trim(), addedBy },
   ]);
 };
 
 export const checkIfUserExists = async (userName: string) => {
   const users = await getFromDb<User[]>('users');
   return (
-    ((!!users?.length || process.env.SUPER_ADMIN) &&
-      !!userName.includes(process.env.SUPER_ADMIN || '')) ||
-    !!users?.find(cur => cur.userName.includes(userName))
+    ((!!users?.length || SUPER_ADMIN) &&
+      !!userName.includes(SUPER_ADMIN || '')) ||
+    !!users?.find((cur) => cur.userName.includes(userName))
   );
 };
 
@@ -39,13 +40,13 @@ export const log = async (key: string) => {
 export const openModal = (trigger_id: string, view: View) => {
   boltApp.client.views
     .open({
-      token: process.env.SLACK_BOT_TOKEN,
+      token: SLACK_BOT_TOKEN,
       // Pass a valid trigger_id within 3 seconds of receiving it
       trigger_id: trigger_id,
       // View payload
-      view
+      view,
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Open modal error', err);
     });
 };
@@ -74,7 +75,7 @@ const getDay = (dayNumber: number) => {
 };
 
 const makeWeekDayObject = (points: number, bonus: number, day?: string) => ({
-  [day ? day : getDay(moment().day())]: { points, bonus }
+  [day ? day : getDay(moment().day())]: { points, bonus },
 });
 
 const updateWeek = (newDay: { [day: string]: Day }, week?: Week): Week => {
@@ -86,7 +87,7 @@ const updateWeek = (newDay: { [day: string]: Day }, week?: Week): Week => {
     days: { ...(isCurrentWeek && week?.days), ...newDay },
     weekNumber:
       (weekNumber === week?.weekNumber && week.weekNumber) || weekNumber,
-    weekLastUpdated: moment().valueOf()
+    weekLastUpdated: moment().valueOf(),
   };
 
   if (!isCurrentWeek) {
@@ -109,7 +110,7 @@ const updateWeek = (newDay: { [day: string]: Day }, week?: Week): Week => {
             (acc, cur) => cur.bonus + cur.points + acc,
             0
           )
-        : null
+        : null,
     });
   }
 
@@ -123,7 +124,7 @@ const updateStreak = (todaysPoints: number, streak?: Streak): Streak => {
   const currentNumberOfDays = streak?.numberOfDays || 0;
   const thisStreak = {
     points: todaysPoints,
-    numberOfDays: onStreak ? currentNumberOfDays + 1 : 1
+    numberOfDays: onStreak ? currentNumberOfDays + 1 : 1,
   };
 
   writeToDb('streak', thisStreak);
@@ -134,7 +135,7 @@ const updateStreak = (todaysPoints: number, streak?: Streak): Streak => {
 export const updateScores = async (points: number, bonus: number) => {
   const [currentWeek, currentStreak] = await Promise.all([
     getFromDb<Week>('currentWeek'),
-    getFromDb<Streak>('streak')
+    getFromDb<Streak>('streak'),
   ]);
   const week = updateWeek(makeWeekDayObject(points, bonus), currentWeek);
   const streak = updateStreak(points, currentStreak);
@@ -166,7 +167,6 @@ export const getPointEmoji = (points: number) => {
       return ':fire:';
     default:
       return ':shrug:';
-      break;
   }
 };
 

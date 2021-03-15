@@ -5,7 +5,7 @@ import { getChartImageUrl, getWeekDayNumber } from '../utils';
 export enum WeekTypes {
   BEST_WEEK = 'bestWeek',
   LAST_WEEK = 'lastWeek',
-  WORST_WEEK = 'worstWeek'
+  WORST_WEEK = 'worstWeek',
 }
 
 const getWeek = (weekType: WeekTypes) => {
@@ -17,27 +17,27 @@ const getWeek = (weekType: WeekTypes) => {
         .orderByChild('totalPoints')
         .limitToLast(1)
         .once('value')
-        .then(snapshot => snapshot.val());
+        .then((snapshot) => snapshot.val());
 
     case weekType == WeekTypes.LAST_WEEK:
       return pastWeeks
         .orderByChild('weekNumber')
         .limitToLast(1)
         .once('value')
-        .then(snapshot => snapshot.val());
+        .then((snapshot) => snapshot.val());
 
     case weekType == WeekTypes.WORST_WEEK:
       return pastWeeks
         .orderByChild('totalPoints')
         .limitToFirst(1)
         .once('value')
-        .then(snapshot => snapshot.val());
+        .then((snapshot) => snapshot.val());
 
     default:
       return pastWeeks
         .orderByChild('weekNumber')
         .once('value')
-        .then(snapshot => snapshot.val());
+        .then((snapshot) => snapshot.val());
   }
 };
 
@@ -77,10 +77,10 @@ const getWeekWithGraphModal = async (weekType: WeekTypes) => {
   const weekDays: DayPointsObject[] | undefined =
     weekContent &&
     Object.entries(weekContent.days)
-      .map(cur => ({
+      .map((cur) => ({
         day: cur[0],
         points: cur[1].points,
-        bonus: cur[1].bonus
+        bonus: cur[1].bonus,
       }))
       .sort((a, b) => getWeekDayNumber(a.day) - getWeekDayNumber(b.day));
 
@@ -89,18 +89,18 @@ const getWeekWithGraphModal = async (weekType: WeekTypes) => {
     getChartImageUrl({
       type: 'bar',
       data: {
-        labels: weekDays.map(cur => cur.day),
+        labels: weekDays.map((cur) => cur.day),
         datasets: [
           {
             label: 'Legitime poeng',
-            data: weekDays.map(cur => cur.points)
+            data: weekDays.map((cur) => cur.points),
           },
           {
             label: 'Bonuspoeng',
-            data: weekDays.map(cur => cur.bonus)
-          }
-        ]
-      }
+            data: weekDays.map((cur) => cur.bonus),
+          },
+        ],
+      },
     });
 
   const blocks = weekContent
@@ -109,25 +109,25 @@ const getWeekWithGraphModal = async (weekType: WeekTypes) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: getWeekText(weekType, weekContent)
-          }
+            text: getWeekText(weekType, weekContent),
+          },
         },
         {
           type: 'image',
           image_url:
             (chartImageUrl && encodeURI(chartImageUrl)) ||
             'https://source.unsplash.com/1600x900/?kitten',
-          alt_text: 'chart'
-        }
+          alt_text: 'chart',
+        },
       ]
     : [
         {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `Fikk ikke hentet uke :slightly_frowning_face:`
-          }
-        }
+            text: `Fikk ikke hentet uke :slightly_frowning_face:`,
+          },
+        },
       ];
 
   const modal: View = {
@@ -135,14 +135,14 @@ const getWeekWithGraphModal = async (weekType: WeekTypes) => {
     title: {
       type: 'plain_text',
       text: getWeekTitle(weekType),
-      emoji: true
+      emoji: true,
     },
     close: {
       type: 'plain_text',
       text: 'Lukk',
-      emoji: true
+      emoji: true,
     },
-    blocks
+    blocks,
   };
   return modal;
 };

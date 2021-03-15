@@ -1,5 +1,7 @@
+import { SLACK_BOT_TOKEN } from '../constants/environment';
 import boltApp from '../bolt';
 import { updateScores, getPointEmoji } from '../utils';
+import { QUIZ_CHANNEL_ID } from '../constants';
 
 export const quizMessage = (time?: string) => {
   const text = time
@@ -7,8 +9,8 @@ export const quizMessage = (time?: string) => {
     : `Nå er det tid for quiz! :medal:\n<!channel>`;
 
   return {
-    token: process.env.SLACK_BOT_TOKEN,
-    channel: process.env.QUIZ_CHANNEL_ID || '',
+    token: SLACK_BOT_TOKEN,
+    channel: QUIZ_CHANNEL_ID,
     text,
     blocks: [
       {
@@ -181,8 +183,8 @@ export const updateMessageWithStats = async (input: Object, ts: string) => {
   }
 
   boltApp.client.chat.update({
-    token: process.env.SLACK_BOT_TOKEN,
-    channel: process.env.QUIZ_CHANNEL_ID || '',
+    token: SLACK_BOT_TOKEN,
+    channel: QUIZ_CHANNEL_ID,
     ts,
     text,
     blocks,

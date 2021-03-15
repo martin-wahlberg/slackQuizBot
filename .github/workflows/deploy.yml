@@ -15,6 +15,6 @@ jobs:
         uses: vitalyliber/dokku-github-action@v5.0
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          HOST: dokkugjensidige.norwayeast.cloudapp.azure.com
+          HOST: dogj.martinwahlberg.no
           PROJECT: gje-quizbot
           FORCE_DEPLOY: true
